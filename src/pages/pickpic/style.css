@@ -1,0 +1,132 @@
+html, body{
+    height:100% !important;
+    font-family: 'Lobster', cursive;
+}
+.item-list{
+    width: 100% !important;
+    margin: 0 !important;
+}
+.div-albums{
+    overflow: scroll;
+    border-right: solid 1px #e0e0e0;
+    padding: 0 !important;
+    margin: 0.5em !important;
+}
+.item{
+    border: dotted 1px gray;
+    border-radius: 0.5em;
+    max-width: 100px;
+    min-width: 100px;
+    height: 150px;
+    padding-top: 9%;
+    padding-bottom: 9%;
+    background-color: #fafafa;
+    margin: 0.5em;
+}
+.item button{
+    margin-top: 40%;
+}
+.item  button:hover{
+    cursor: pointer !important;
+}
+.item button{
+    background: transparent;
+    width:100%;
+    height:100%;
+    color: #000;
+}
+.item button i{
+    color: #000;
+}
+.album-item{
+    padding: 0 !important;
+    border: none;
+}
+.album-content{
+    border-radius: 0.5em;
+    margin: 0 !important;
+}
+.album-content div{
+    border-radius: 0.5em;
+}
+.album-content div img{
+    height: 150px !important;
+}
+.album-item .card-content{
+    display: none;
+}
+.album-content .card-image span.card-title{
+    background-color: rgb(0, 0, 0, 0.7);
+    font-size: 1em !important;
+    padding: 0.5em !important;
+    width: 100%;
+}
+.div-new-album{
+    padding: 0 !important;
+}
+.div-create-album{
+    width: 100% !important;
+    display: flex;
+}
+.card-add-new-album{
+    margin-right: 0.5em;
+}
+.card-add-new-album .card-content{
+    padding: 0.5em !important;
+}
+.div-photos{
+    width: 100%;
+    margin: 0  !important;
+    margin-left: -1em !important;
+    padding: 0 !important;
+    height:100% !important;
+    overflow: scroll;
+}
+.div-albums, .div-photos{
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+.empty-Gallery, .empty-Gallery-noSelected{
+    padding-top: 10%;
+    font-family: 'Lobster', cursive;
+    color: #9e9e9e;
+}
+.empty-Gallery{
+    padding-top: 10% - 86px !important;
+}
+.btn-group{
+    margin-top: 2em;
+}
+.btn-group div button{
+    width: 100%;
+}
+.modal-addPhoto button i{
+    color: green;
+}
+.inputpb, p.inputpb{
+    width: 100% !important;
+    padding: 0.1em !important;
+    border: solid 1px #FCFCFC !important;
+    border-radius: 0.25em !important;
+    background: rgb(0,0,0,0.6) !important;
+    color: #FFF !important;
+    text-shadow: 0 0 3px #000 !important;
+    margin: 0 !important;
+    font-size: 0.8em !important;
+  }
+  p.inputpb{
+    padding: 0 0.3em;
+  }
+  textarea.albumdescription{
+    border-radius: 0.5em;
+    height: 100px !important;
+    max-height: 100px !important;
+    min-height: 100px !important;
+    max-width: 100%;
+    min-width: 100%;
+    width: 100%;
+    border: none;
+  }
+  .btn-remove i{
+      color: #fff !important;
+  }
