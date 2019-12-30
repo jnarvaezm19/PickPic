@@ -17,6 +17,7 @@ class AlbumContainer extends Component{
             txtPhotoName: "",
             txtPhotoDescription: "",
             filePhotoPath: "",
+            filePhotoPathTemp: [],
 
             isImageInCache: false,
             uploadImage: "",
@@ -56,6 +57,7 @@ class AlbumContainer extends Component{
     }
 
     uploadImage = async e =>{
+
         const files = e.target.files;
         const image = new FormData();
         image.append('file',files[0]);
@@ -69,9 +71,11 @@ class AlbumContainer extends Component{
         );
         const file = await res.json();
         this.setState({
+            filePhotoPathTemp: files[0],
             isImageInCache: true,
             filePhotoPath: file.secure_url
         });
+        console.log(res.url);
     }
 
     //method to show the form to add new album
@@ -181,12 +185,14 @@ class AlbumContainer extends Component{
                 photoName: this.state.txtPhotoName,
                 photoDescription: this.state.txtPhotoDescription,
                 photoUrl: this.state.filePhotoPath,
-                photoDateCreated: date
+                photoDateCreated: date,
             })
         }).then(res =>{
+            this.state.filePhotoPathTemp = [];
             this.state.txtPhotoName = "";
             this.state.txtPhotoDescription = "";
-            this.isImageInCache = false;
+            this.state.isImageInCache = false;
+            this.state.filePhotoPath = "";
             this.listPhotoByAlbum(this.state.albumSelected._id);
         });
     }
@@ -331,6 +337,7 @@ class AlbumContainer extends Component{
             filePhotoPath,
             isImageInCache,
             findedPhoto,
+            filePhotoPathTemp,
 
             isSearchByNameDesc,
             txtSearchByNameDes,
@@ -355,6 +362,7 @@ class AlbumContainer extends Component{
                 txtPhotoName={txtPhotoName}
                 txtPhotoDescription={txtPhotoDescription}
                 filePhotoPath={filePhotoPath}
+                filePhotoPathTemp={filePhotoPathTemp}
                 findedPhoto={findedPhoto}
                 onNewPhoto={this.onNewPhoto}
                 onAddNewPhoto={this.onAddNewPhoto}

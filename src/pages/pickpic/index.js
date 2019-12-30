@@ -38,6 +38,7 @@ function PickPicPages(props){
         txtPhotoName,
         txtPhotoDescription,
         filePhotoPath,
+        filePhotoPathTemp,
         onNewPhoto,
         onAddNewPhoto,
         onRemovePhoto,
@@ -258,7 +259,9 @@ function PickPicPages(props){
                                                                     <i className="material-icons">add_a_photo</i>
                                                                     <input  type="file"
                                                                             onChange={uploadImage}
-                                                                            />
+                                                                            accept="image/png, image/jpeg"
+
+                                                                    />
                                                                 </div>
                                                                 <div className="file-path-wrapper">
                                                                     <input  className="file-path validate" 
