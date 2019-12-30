@@ -40,3 +40,9 @@ I found how to fix in this link https://stackoverflow.com/questions/51197486/cla
 ### Anotations ###
 This is my first react app, that's explain the basic structure, so I put the conecction with the generated API RestFul in the same file named index.js stored in /containers/index.js  that contains all the functions and methods. 
 So.. why react? I choose react to develop this app because is a popular technology, further you actually use that, so I accepted your technical test but also I set a challange to me and thats was make this technical test in this technology to show me that I can do whatever challange, obviously I have a lot of thing to improve.
+
+### To Improve ###
+Making this project I realize about I have to improve the component handling, search more about the react structure to divide the code in little compontents to make it more understable and organizate. To the layout improve I thing that need explore more libraries, adjust some fields to make the layout more pretty.
+Personality I fell better when I've a mockup to guide me.
+And the more important to improve in this project is the photo view when thery're storages, because, is a simple view, I tried to make it more beautiful implementing mediaboxes to show the image in all the screen, but I don't know if that is a issue to the library, or maybe I'm knowless about how it work in special functions. 
+Note: When we uploaded a images a file field cannot reset, so this little detail is happening, but te functionality is the same, just choose another image.
