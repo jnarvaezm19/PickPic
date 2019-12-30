@@ -30,6 +30,17 @@ Locate into the app folder then execute:
 >uikit-react
 >classnames
 
+Versions:
+classnames: 2.2.6
+ materialize-css: 1.0.0
+react: 16.12.0
+react-alert: 6.0.0
+react-alert-template-basic: 1.0.0
+react-dom: 16.12.0
+react-materialize: 3.5.8
+react-scripts: 3.3.0
+uikit-react: 3.0.20
+
 To save the image I used the API of cloudinary. All the image upload in this app will be locate in this site.
 
 
