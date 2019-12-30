@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import PickPic from './containers/album';
+import PickPic from './containers/index';
 
 class App extends Component {
 

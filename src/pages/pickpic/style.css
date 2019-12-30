@@ -132,8 +132,12 @@ textarea.albumdescription{
     align-items: center !important;
     justify-content: center !important;
 }
+.div-search{
+    display: flex !important;
+}
 .txtSearch{
-    width: 95% !important;
+    margin: auto 0.5em !important;
+    width: 45% !important;
 }
 .txtSearch input{
     border: solid 2px #bdbdbd  !important;

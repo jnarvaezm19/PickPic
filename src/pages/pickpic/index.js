@@ -152,119 +152,30 @@ function PickPicPages(props){
                         <h5>Photos</h5>
                         <div className="container-fluid filter-div">
                             <div>
-                                <Dropdown
-                                    options={{
-                                        alignment: 'left',
-                                        autoTrigger: true,
-                                        closeOnClick: true,
-                                        constrainWidth: true,
-                                        container: null,
-                                        coverTrigger: true,
-                                        hover: false,
-                                        inDuration: 150,
-                                        onCloseEnd: null,
-                                        onCloseStart: null,
-                                        onOpenEnd: null,
-                                        onOpenStart: null,
-                                        outDuration: 250
-                                    }}
-                                    onClick={onSelectSearchType}
-                                    trigger={<Button node="button">Drop Me!</Button>}
-                                    >
-                                    <a href="#">
-                                        one
-                                    </a>
-                                    <Divider />
-                                    <a href="#">
-                                        two
-                                    </a>
-                                </Dropdown>
-                            </div>
-                            <div>
-                                {isSearchByNameDesc !== "text" ?
-                                    <div className="input-field txtSearch">
-                                        <i className="material-icons prefix">search</i>
-                                        <input  id="icon_prefix" 
-                                                type="text" 
-                                                className="validate"
-                                                placeholder="Search By Photo Name or Description"
-                                                defaultValue={txtSearchByNameDes}
-                                                onChange={onChangeSearchByNameDesc}/>
-                                    </div>
-                                :
-                                <DatePicker
-                                    className="txtSearch"
-                                    defaultValue={txtSearchByDate}
-                                    onChange={onChangeSearchByDate}
-                                    options={{
-                                        events: [],
-                                        firstDay: 0,
-                                        format: 'mm/dd/yyyy',
-                                        i18n: {
-                                        cancel: 'Cancel',
-                                        clear: 'Clear',
-                                        done: 'Ok',
-                                        months: [
-                                        'January',
-                                        'February',
-                                        'March',
-                                        'April',
-                                        'May',
-                                        'June',
-                                        'July',
-                                        'August',
-                                        'September',
-                                        'October',
-                                        'November',
-                                        'December'
-                                        ],
-                                        monthsShort: [
-                                        'Jan',
-                                        'Feb',
-                                        'Mar',
-                                        'Apr',
-                                        'May',
-                                        'Jun',
-                                        'Jul',
-                                        'Aug',
-                                        'Sep',
-                                        'Oct',
-                                        'Nov',
-                                        'Dec'
-                                        ],
-                                        nextMonth: '›',
-                                        previousMonth: '‹',
-                                        weekdays: [
-                                        'Sunday',
-                                        'Monday',
-                                        'Tuesday',
-                                        'Wednesday',
-                                        'Thursday',
-                                        'Friday',
-                                        'Saturday'
-                                        ],
-                                        weekdaysAbbrev: [
-                                        'S',
-                                        'M',
-                                        'T',
-                                        'W',
-                                        'T',
-                                        'F',
-                                        'S'
-                                        ],
-                                        weekdaysShort: [
-                                        'Sun',
-                                        'Mon',
-                                        'Tue',
-                                        'Wed',
-                                        'Thu',
-                                        'Fri',
-                                        'Sat'
-                                        ]
-                                            },
-                                        yearRange: 10
-                                        }}
-                                    />
+                                {isSearchByNameDesc !== "text" &&
+                                    <React.Fragment>
+                                        <div className="div-search">
+                                            <div className="input-field txtSearch">
+                                                <i className="material-icons prefix">search</i>
+                                                <input  id="icon_prefix" 
+                                                        type="text" 
+                                                        className="validate"
+                                                        placeholder="Search By Photo Name or Description"
+                                                        defaultValue={txtSearchByNameDes}
+                                                        onChange={onChangeSearchByNameDesc}/>
+                                            </div>
+                                            <div className="input-field txtSearch">
+                                                <i className="material-icons prefix datepicker">date_range</i>
+                                                <DatePicker
+                                                    options={{
+                                                        format: 'yyyy-mm-dd',
+                                                        onSelect: onChangeSearchByDate
+                                                    }}
+                                                    placeholder="Search by date"
+                                                />
+                                            </div>
+                                        </div>
+                                    </React.Fragment>
                                 }
                             </div>
                         </div>
@@ -306,7 +217,9 @@ function PickPicPages(props){
                                                     >
                                                         {filePhotoPath.trim() !== "" ?
                                                             <div className="preAddPhoto">
-                                                                <img src={filePhotoPath} />
+                                                                <MediaBox>
+                                                                    <img className="materialboxed" src={filePhotoPath} />
+                                                                </MediaBox>
                                                             </div>
                                                         :
                                                             <React.Fragment>     
@@ -411,8 +324,7 @@ function PickPicPages(props){
                                                                         </Button>
                                                                     ]}
                                                                     header = {
-                                                                        <CardTitle image={photo.photoUrl}
-                                                                        >
+                                                                        <CardTitle image={photo.photoUrl}>
                                                                             <input  type="text" 
                                                                                     className="inputpb"
                                                                                     onChange={onChangeNewPhotoName}
@@ -447,8 +359,7 @@ function PickPicPages(props){
                                     >
                                         <Card   key={photo._id}
                                                 header = {
-                                                    <CardTitle image={photo.photoUrl}
-                                                    >
+                                                    <CardTitle image={photo.photoUrl} >
                                                         <p className="inputpb">
                                                             {photo.photoName}
                                                         </p>

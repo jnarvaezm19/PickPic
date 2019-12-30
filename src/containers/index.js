@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import PickPic from '../pages/pickpic';
-import PhotoContainer from './photo';
 
 class AlbumContainer extends Component{
 
@@ -53,16 +52,7 @@ class AlbumContainer extends Component{
     }
 
     componentDidMount(){
-        this.timerID = setInterval(
-            () => this.listAlbums(),
-            100
-          );
-          setInterval(
-              () => this.state.photos, 100
-          );
-          setInterval(
-              () => this.listPhotoByAlbum(this.state.albumSelected._id),100
-          );
+        
     }
 
     uploadImage = async e =>{
@@ -96,7 +86,7 @@ class AlbumContainer extends Component{
         let day = newDate.getDate();
         let month = newDate.getMonth() + 1;
         let year = newDate.getFullYear();
-        let date = day.toString() + "-" + month.toString() + "-" + year.toString();
+        let date = day.toString() +  "-" + month.toString() + "-" + year.toString() ;
         return date;
     }
     //Method to prepare new album
@@ -118,9 +108,10 @@ class AlbumContainer extends Component{
                 albumName: this.state.txtAlbumName,
                 createdDate: date
             })
+        }).then(res => {
+            this.listAlbums();
+            this.state.txtAlbumName = "";
         });
-        this.state.txtAlbumName = "";
-        this.listAlbums();
     }
 
     listAlbums(){
@@ -153,8 +144,8 @@ class AlbumContainer extends Component{
             this.setState({
                 albums: post
             });
+            this.listAlbums();
         });
-        this.listAlbums();
     }
 
     //method to show the form to add new album
@@ -188,12 +179,12 @@ class AlbumContainer extends Component{
                 photoUrl: this.state.filePhotoPath,
                 photoDateCreated: date
             })
+        }).then(res =>{
+            this.state.txtPhotoName = "";
+            this.state.txtPhotoDescription = "";
+            this.isImageInCache = false;
+            this.listPhotoByAlbum(this.state.albumSelected._id);
         });
-        this.state.txtPhotoName = "";
-        this.state.txtPhotoDescription = "";
-        this.isImageInCache = false;
-        this.listPhotoByAlbum(this.state.albumSelected._id);
-        console.log(this.state.photos);
     }
 
     onChangeNewPhotoName(event){
@@ -243,8 +234,8 @@ class AlbumContainer extends Component{
             this.setState({
                 photos: post
             });
+            this.listPhotoByAlbum(this.state.albumSelected._id);
         });
-        this.listPhotoByAlbum(this.state.albumSelected._id);
     }
 
     onEditingPhotoName(photo){
@@ -293,31 +284,32 @@ class AlbumContainer extends Component{
         });
         fetch('http://localhost:3001/photo/search/'+search)
             .then(res => res.json())
-            .then((data) => {
-                this.setState({
-                    findedPhoto:data
-                });
-            });
+                .then((data) => {
+                    this.setState({
+                        findedPhoto:data
+                    });
             this.state.createPhoto = false;
+            });
     }
     onChangeSearchByDate(event){
-        var date = event.toString();
-        var dateformat = new Date(date);
-        alert(dateformat);
-        /*const search = event.target.value;
-        this.state.createPhoto = false;
+        let date = new Date(event);
+        let search = date.toLocaleDateString().toString();
+        search = search.replace("/","-");
+        search = search.replace("/","-");
+        console.log(search);
         this.setState({
             txtSearchByDate: search,
-            createPhoto: false
+            createPhoto: false,
+            albumSelected: {}
         });
-        fetch('http://localhost:3001/photo/search/'+search)
+        fetch('http://localhost:3001/photo/search/date/'+search)
             .then(res => res.json())
-            .then((data) => {
-                this.setState({
-                    ...this.state.photos,
-                    photos:data
+                .then((data) => {
+                    this.setState({
+                        findedPhoto:data
                 });
-            });*/
+                this.state.createPhoto = false;
+            });
     }
 
     render(){
