@@ -55,8 +55,7 @@ function PickPicPages(props){
         txtSearchByNameDes,
         txtSearchByDate,
         onChangeSearchByNameDesc,
-        onChangeSearchByDate,
-        onSelectSearchType,
+        onChangeSearchByDate
     } = props;
 
     const M = window.M;

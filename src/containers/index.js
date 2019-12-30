@@ -49,13 +49,9 @@ class AlbumContainer extends Component{
 
         this.onChangeSearchByNameDesc = this.onChangeSearchByNameDesc.bind(this);
         this.onChangeSearchByDate = this.onChangeSearchByDate.bind(this);
-        this.onSelectSearchType = this.onSelectSearchType.bind(this);
     }
 
-    componentDidMount(){
-        
-    }
-
+    //Method to upload images and save in clodinary
     uploadImage = async e =>{
 
         const files = e.target.files;
@@ -85,6 +81,8 @@ class AlbumContainer extends Component{
             showGallery: false
         });
     }
+
+    //Method to return the date format
     onGetCurrentDate(){
         let newDate = new Date();
         let day = newDate.getDate();
@@ -93,7 +91,8 @@ class AlbumContainer extends Component{
         let date = day.toString() +  "-" + month.toString() + "-" + year.toString() ;
         return date;
     }
-    //Method to prepare new album
+
+    //Method that consume the API rest to Submit an Album
     onNewAlbum(){
         const date = this.onGetCurrentDate();
         if(this.state.txtAlbumName.trim() === ""){
@@ -118,6 +117,7 @@ class AlbumContainer extends Component{
         });
     }
 
+    //Method that consume the API rest to List All Albums stored
     listAlbums(){
         fetch('http://localhost:3001/album')
             .then(res => res.json())
@@ -129,6 +129,7 @@ class AlbumContainer extends Component{
             });
     }
 
+    //Method to get the new album title 
     onChangeNewAlbum(event){
         const albumTitle = event.target.value;
         this.setState({
@@ -136,6 +137,7 @@ class AlbumContainer extends Component{
         });
     }
 
+    //Method to remove an Album
     onRemoveAlbum(album){
         fetch('http://localhost:3001/photo/album/'+album._id,{
             method: "DELETE"
@@ -171,7 +173,7 @@ class AlbumContainer extends Component{
         this.listPhotoByAlbum(this.state.albumSelected._id);
     }
 
-    //Method to prepare new photo
+    //Method to save a image consuming the API RestFul
     onNewPhoto(){
         const date = this.onGetCurrentDate();
         fetch('http://localhost:3001/photo', {
@@ -197,6 +199,7 @@ class AlbumContainer extends Component{
         });
     }
 
+    //Method to get photo title 
     onChangeNewPhotoName(event){
         const photoName = event.target.value;
         this.setState({
@@ -204,6 +207,7 @@ class AlbumContainer extends Component{
         });
     }
 
+    //Method to get photo title 
     onChangeNewPhotoDescription(event){
         const photoDescription = event.target.value;
         this.setState({
@@ -219,6 +223,7 @@ class AlbumContainer extends Component{
         });
     }
 
+    //Method to list all images to specific album consuming the API RestFul 
     listPhotoByAlbum(albumId){
         fetch('http://localhost:3001/photo/'+albumId)
             .then(res => res.json())
@@ -236,6 +241,7 @@ class AlbumContainer extends Component{
             });
     }
 
+    //Method to delete a specific images consuming the API RestFul
     onRemovePhoto(photo){
         fetch('http://localhost:3001/photo/'+photo._id,{
             method: "DELETE"
@@ -248,6 +254,7 @@ class AlbumContainer extends Component{
         });
     }
 
+    //to get the new image title, then update in the database using the API RestFul
     onEditingPhotoName(photo){
         if(this.state.txtPhotoName.trim() === ""){
             return;
@@ -264,6 +271,7 @@ class AlbumContainer extends Component{
         });
     }
 
+    //to get the new image description, then update in the database using the API RestFul
     onEditingPhotoDescription(photo){
         if(this.state.txtPhotoDescription.trim() === ""){
             return;
@@ -280,10 +288,7 @@ class AlbumContainer extends Component{
         });
     }
 
-    onSelectSearchType(event){
-        alert(event.target.value);
-    }
-
+    //to get the filter searching by title or description
     onChangeSearchByNameDesc(event){
         const search = event.target.value;
         this.state.createPhoto = false;
@@ -301,6 +306,8 @@ class AlbumContainer extends Component{
             this.state.createPhoto = false;
             });
     }
+
+    //to get the filter searching by date
     onChangeSearchByDate(event){
         let date = new Date(event);
         let search = date.toLocaleDateString().toString();
@@ -382,7 +389,6 @@ class AlbumContainer extends Component{
                 txtSearchByDate={this.txtSearchByDate}
                 onChangeSearchByNameDesc={this.onChangeSearchByNameDesc}
                 onChangeSearchByDate={this.onChangeSearchByDate}
-                onSelectSearchType={this.onSelectSearchType}
             />
         )
     }
