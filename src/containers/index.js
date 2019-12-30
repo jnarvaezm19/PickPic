@@ -142,7 +142,11 @@ class AlbumContainer extends Component{
         }).then(res => {
             let post = this.state.albums.filter(post => post._id !== album._id);
             this.setState({
-                albums: post
+                albums: post,
+                createPhoto: false,
+                albumSelected : {},
+                photos: [],
+                findedPhoto : []
             });
             this.listAlbums();
         });

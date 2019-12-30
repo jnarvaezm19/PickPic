@@ -386,45 +386,7 @@ function PickPicPages(props){
                     </Col>
                 </Row>
 
-                <Modal
-                    actions={[
-                        <Button flat modal="close" node="button" waves="green">Close</Button>
-                    ]}
-                    bottomSheet={false}
-                    fixedFooter={false}
-                    header="Events Log"
-                    id="modal-0"
-                    options={{
-                        dismissible: true,
-                        endingTop: '10%',
-                        inDuration: 250,
-                        onCloseEnd: null,
-                        onCloseStart: null,
-                        onOpenEnd: null,
-                        onOpenStart: null,
-                        opacity: 0.5,
-                        outDuration: 250,
-                        preventScrolling: true,
-                        startingTop: '4%'
-                    }}
-                    trigger={
-                        <Button
-                            className="orange darken-2"
-                            icon={<Icon>event</Icon>}
-                            fab={{
-                                direction: 'left',
-                                hoverEnabled: false
-                            }}
-                            floating
-                            large
-                            node="button"
-                        ></Button>
-                    }
-                    >
-                    <p>
-                        In this part the app show the all events log
-                    </p>
-                </Modal>  
+                 
             </div>
         </Layout>
     );

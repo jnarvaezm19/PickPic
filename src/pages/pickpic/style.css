@@ -139,7 +139,7 @@ textarea.albumdescription{
     margin: auto 0.5em !important;
     width: 45% !important;
 }
-.txtSearch input{
+.txtSearch input, .txtSearch div input{
     border: solid 2px #bdbdbd  !important;
     border-radius: 1em !important;
     padding: 0.2em 0.5em !important;
