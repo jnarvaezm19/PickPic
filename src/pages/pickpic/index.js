@@ -9,6 +9,13 @@ import { Button,
          Icon,
          Modal,
          MediaBox,
+         DatePicker,
+         Select,
+         Carousel,
+         Dropdown,
+         Divider,
+         ProgressBar,
+         Toast,
         } from 'react-materialize';
 
 function PickPicPages(props){
@@ -24,6 +31,7 @@ function PickPicPages(props){
         onChangeNewAlbum,
         listAlbums,
         onShowGallery,
+        onRemoveAlbum,
         //Photos
         photos,
         createPhoto,
@@ -34,7 +42,27 @@ function PickPicPages(props){
         onAddNewPhoto,
         onRemovePhoto,
         listPhotoByAlbum,
+        onChangeNewPhotoName,
+        onChangeNewPhotoDescription,
+        onEditingPhotoName,
+        onEditingPhotoDescription,
+        isImageInCache,
+        uploadImage,
+        findedPhoto,
+        //Searching
+        isSearchByNameDesc,
+        txtSearchByNameDes,
+        txtSearchByDate,
+        onChangeSearchByNameDesc,
+        onChangeSearchByDate,
+        onSelectSearchType,
     } = props;
+
+    const M = window.M;
+    document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('.materialboxed');
+        M.Materialbox.init(elems, {});
+    });
 
     return(
         <Layout>
@@ -97,9 +125,17 @@ function PickPicPages(props){
                                      key={album._id}
                                      onClick={() => onShowGallery(album)}
                                 >
-                                    <Card className="album-content"
+                                    <Card className="album-content" key={album._id}
                                         header={
                                             <CardTitle image="https://materializecss.com/images/sample-1.jpg">
+                                                        <Button className="btn-removeAlbum"
+                                                                icon={<Icon>close</Icon>}
+                                                                small
+                                                                floating
+                                                                node="button"
+                                                                title="Remove Album"
+                                                                onClick={() => onRemoveAlbum(album)}
+                                                        />
                                                         {album.albumName}
                                             </CardTitle>
                                         }
@@ -114,12 +150,130 @@ function PickPicPages(props){
                     }    
                     <Col s={8} m={10} l={10} className="div-photos">
                         <h5>Photos</h5>
-                        {showGallery ?
+                        <div className="container-fluid filter-div">
+                            <div>
+                                <Dropdown
+                                    options={{
+                                        alignment: 'left',
+                                        autoTrigger: true,
+                                        closeOnClick: true,
+                                        constrainWidth: true,
+                                        container: null,
+                                        coverTrigger: true,
+                                        hover: false,
+                                        inDuration: 150,
+                                        onCloseEnd: null,
+                                        onCloseStart: null,
+                                        onOpenEnd: null,
+                                        onOpenStart: null,
+                                        outDuration: 250
+                                    }}
+                                    onClick={onSelectSearchType}
+                                    trigger={<Button node="button">Drop Me!</Button>}
+                                    >
+                                    <a href="#">
+                                        one
+                                    </a>
+                                    <Divider />
+                                    <a href="#">
+                                        two
+                                    </a>
+                                </Dropdown>
+                            </div>
+                            <div>
+                                {isSearchByNameDesc !== "text" ?
+                                    <div className="input-field txtSearch">
+                                        <i className="material-icons prefix">search</i>
+                                        <input  id="icon_prefix" 
+                                                type="text" 
+                                                className="validate"
+                                                placeholder="Search By Photo Name or Description"
+                                                defaultValue={txtSearchByNameDes}
+                                                onChange={onChangeSearchByNameDesc}/>
+                                    </div>
+                                :
+                                <DatePicker
+                                    className="txtSearch"
+                                    defaultValue={txtSearchByDate}
+                                    onChange={onChangeSearchByDate}
+                                    options={{
+                                        events: [],
+                                        firstDay: 0,
+                                        format: 'mm/dd/yyyy',
+                                        i18n: {
+                                        cancel: 'Cancel',
+                                        clear: 'Clear',
+                                        done: 'Ok',
+                                        months: [
+                                        'January',
+                                        'February',
+                                        'March',
+                                        'April',
+                                        'May',
+                                        'June',
+                                        'July',
+                                        'August',
+                                        'September',
+                                        'October',
+                                        'November',
+                                        'December'
+                                        ],
+                                        monthsShort: [
+                                        'Jan',
+                                        'Feb',
+                                        'Mar',
+                                        'Apr',
+                                        'May',
+                                        'Jun',
+                                        'Jul',
+                                        'Aug',
+                                        'Sep',
+                                        'Oct',
+                                        'Nov',
+                                        'Dec'
+                                        ],
+                                        nextMonth: '›',
+                                        previousMonth: '‹',
+                                        weekdays: [
+                                        'Sunday',
+                                        'Monday',
+                                        'Tuesday',
+                                        'Wednesday',
+                                        'Thursday',
+                                        'Friday',
+                                        'Saturday'
+                                        ],
+                                        weekdaysAbbrev: [
+                                        'S',
+                                        'M',
+                                        'T',
+                                        'W',
+                                        'T',
+                                        'F',
+                                        'S'
+                                        ],
+                                        weekdaysShort: [
+                                        'Sun',
+                                        'Mon',
+                                        'Tue',
+                                        'Wed',
+                                        'Thu',
+                                        'Fri',
+                                        'Sat'
+                                        ]
+                                            },
+                                        yearRange: 10
+                                        }}
+                                    />
+                                }
+                            </div>
+                        </div>
+                        {showGallery && findedPhoto.length <= 0 ?
                             <React.Fragment>
                                 {createPhoto ?
                                     <React.Fragment></React.Fragment>
                                 :
-                                    <div className="container modal-addPhoto">
+                                    <div className=" modal-addPhoto">
                                         <Col s={12}
                                         >
                                             <Modal
@@ -146,125 +300,220 @@ function PickPicPages(props){
                                                     />
                                                 }
                                             >
-                                                <div className="form-group container">
-                                                    <div className="input-field">
-                                                        <i className="material-icons prefix">title</i>
-                                                        <input  id="photoTitle" 
-                                                                type="text"
-                                                                value={txtPhotoName} 
-                                                                className="validate"/>
-                                                        <label htmlFor="photoTitle">Photo Title</label>
-                                                    </div>
-                                                    <div className="input-field">
-                                                        <i className="material-icons prefix">mode_edit</i>
-                                                        <textarea id="textarea3" 
-                                                                className="form-control txaPhotoDescription
-                                                                materialize-textarea" 
-                                                                data-length="145" 
-                                                                >{txtPhotoDescription}</textarea>
-                                                        <label htmlFor="textarea3">Write the Album description</label>
-                                                    </div>
-                                                    <div className="file-field">
-                                                        <div className="btn red darken-4">
-                                                            <i className="material-icons">add_a_photo</i>
-                                                            <input  type="file" 
-                                                                    value={filePhotoPath}
-                                                                    multiple/>
-                                                        </div>
-                                                        <div className="file-path-wrapper">
-                                                            <input  className="file-path validate" 
-                                                                    type="text" 
-                                                                    placeholder="Upload one or more files"
-                                                                    accept="image/*"/>
-                                                        </div>
-                                                    </div>
-                                                    <Row className="btn-group">
-                                                        <Col s={6}>
-                                                            <Button 
-                                                                className="form-control"
-                                                                large
-                                                                node="button"
-                                                                waves="light"
-                                                                title="Upload"
-                                                                onClick={onNewPhoto}
-                                                            >
-                                                                Updload
-                                                            </Button>
-                                                        </Col>
-                                                        <Col s={6}>
-                                                            <Button 
-                                                                className="red form-control"
-                                                                large
-                                                                node="button"
-                                                                waves="light"
-                                                                title="Cancel"
-                                                                //onClick={onAddNewPhoto}
-                                                            >
-                                                                Cancel
-                                                            </Button>
-                                                        </Col>
-                                                    </Row>
-                                                </div>
-                                            </Modal>
-                                        </Col>
-                                        {photos.map(photo => 
-                                            <React.Fragment>
-                                                {photos === [] ?
-                                                    <div className="empty-Gallery">
-                                                        <h2><i className="material-icons">error_outline</i>Ups </h2>
-                                                        <h4>This album is empty</h4>
-                                                        <h5>Lets add some photos</h5>
-                                                    </div>
-                                                :
-                                                    <Col s={12}
-                                                         m={4}
+                                                <Row>
+                                                    <Col s={12} 
+                                                        m={4}
                                                     >
-                                                        <Card
-                                                            actions={[
-                                                                <Button className="red btn-remove"
-                                                                        icon={<Icon>delete</Icon>}
-                                                                        floating
-                                                                        big
+                                                        {filePhotoPath.trim() !== "" ?
+                                                            <div className="preAddPhoto">
+                                                                <img src={filePhotoPath} />
+                                                            </div>
+                                                        :
+                                                            <React.Fragment>     
+                                                                <div className="preAddPhotoP center">
+                                                                </div>
+                                                            </React.Fragment>
+                                                        }
+                                                    </Col>
+                                                    <Col s={12} 
+                                                        m={8} 
+                                                    >
+                                                        <div className="form-group container">
+                                                            <div className="input-field">
+                                                                <i className="material-icons prefix">title</i>
+                                                                <input  id="photoTitle" 
+                                                                        type="text"
+                                                                        value={txtPhotoName}
+                                                                        onChange={onChangeNewPhotoName} 
+                                                                        className="validate"/>
+                                                                <label htmlFor="photoTitle">Photo Title</label>
+                                                            </div>
+                                                            <div className="input-field">
+                                                                <i className="material-icons prefix">mode_edit</i>
+                                                                <textarea id="photoDescription" 
+                                                                        className="form-control txaPhotoDescription
+                                                                        materialize-textarea" 
+                                                                        data-length="145" 
+                                                                        onChange={onChangeNewPhotoDescription}
+                                                                        value={txtPhotoDescription}
+                                                                >
+                                                                </textarea>
+                                                                <label htmlFor="photoDescription">Write the Album description</label>
+                                                            </div>
+                                                            <div className="file-field">
+                                                                <div className="btn red darken-4">
+                                                                    <i className="material-icons">add_a_photo</i>
+                                                                    <input  type="file"
+                                                                            onChange={uploadImage}
+                                                                            />
+                                                                </div>
+                                                                <div className="file-path-wrapper">
+                                                                    <input  className="file-path validate" 
+                                                                            type="text" 
+                                                                            placeholder="Upload one or more files"
+                                                                            accept="image/*"/>
+                                                                </div>
+                                                            </div>
+                                                            <Row className="btn-group">
+                                                                <Col s={12}>
+                                                                    <Button 
+                                                                        className="form-control"
+                                                                        large
                                                                         node="button"
                                                                         waves="light"
-                                                                        title="Remove"
-                                                                        //onClick={onNewAlbum}
-                                                                >
-                                                                    Remove
-                                                                </Button>
-                                                            ]}
-                                                            header = {
-                                                                <CardTitle image={photo.photoUrl} >
-                                                                    <input  type="text" 
-                                                                            className="inputpb"
-                                                                            value={photo.photoName}/>
-                                                                </CardTitle>
-                                                            }
-                                                        >
-                                                            <div>
-                                                                <textarea className="albumdescription">
-                                                                    {photo.photoDescription}
-                                                                </textarea>
+                                                                        title="Upload"
+                                                                        onClick={onNewPhoto}
+                                                                    >
+                                                                        Upload
+                                                                    </Button>
+                                                                </Col>
+                                                                
+                                                            </Row>
+                                                        </div>
+                                                    
+                                                    </Col>
+                                                    
+                                                </Row>
+                                            </Modal>
+                                        </Col>
+                                        {photos.length <= 0 ?
+                                            <div className="empty-Gallery-noSelected">
+                                                <h2><i className="material-icons">error_outline</i>Ups </h2>
+                                                <h4>This album is empty</h4>
+                                                <h5>Lets add some photos</h5>
+                                            </div>
+                                            :
+                                            <React.Fragment>
+                                                {photos.map(photo => 
+                                                    <React.Fragment>
+                                                        {photo === "" ?
+                                                            <div className="">
+                                                                <h2><i className="material-icons">error_outline</i>Ups </h2>
+                                                                <h4>This album is empty</h4>
+                                                                <h5>Lets add some photos</h5>
                                                             </div>
-                                                        </Card>
-                                                    </Col>  
-                                                }
-                                            </React.Fragment>  
-                                        )}  
+                                                        :
+                                                            <Col s={12}
+                                                                m={4}
+                                                                key={photo._id}
+                                                            >
+                                                                <Card className="cardListPhotos"
+                                                                    actions={[
+                                                                        <Button className="red btn-remove"
+                                                                                icon={<Icon>delete</Icon>}
+                                                                                floating
+                                                                                node="button"
+                                                                                waves="light"
+                                                                                title="Remove"
+                                                                                onClick={() => onRemovePhoto(photo)}
+                                                                        >
+                                                                            Remove
+                                                                        </Button>
+                                                                    ]}
+                                                                    header = {
+                                                                        <CardTitle image={photo.photoUrl}
+                                                                        >
+                                                                            <input  type="text" 
+                                                                                    className="inputpb"
+                                                                                    onChange={onChangeNewPhotoName}
+                                                                                    defaultValue={photo.photoName}
+                                                                                    onBlur={() => onEditingPhotoName(photo)}/>
+                                                                        </CardTitle>
+                                                                    }
+                                                                >
+                                                                    <div>
+                                                                        <textarea className="albumdescription"
+                                                                                onChange={onChangeNewPhotoDescription}
+                                                                                onBlur={() => onEditingPhotoDescription(photo)}
+                                                                                defaultValue={photo.photoDescription}>
+                                                                        </textarea>
+                                                                    </div>
+                                                                </Card>
+                                                            </Col>  
+                                                        }
+                                                    </React.Fragment>  
+                                                )} 
+                                            </React.Fragment>
+                                        } 
                                     </div>  
                                 }
                             </React.Fragment>
                         :
                             <React.Fragment>
-                                <div className="empty-Gallery-noSelected">
-                                    <h2><i className="material-icons">error_outline</i>Hello!</h2>
-                                    <h4>Show your best pics</h4>
-                                    <h5>Create or Choose an album and enjoy</h5>
-                                </div>
+                                {findedPhoto.map(photo => 
+                                    <Col s={12}
+                                         m={4}
+                                         key={photo._id}
+                                    >
+                                        <Card   key={photo._id}
+                                                header = {
+                                                    <CardTitle image={photo.photoUrl}
+                                                    >
+                                                        <p className="inputpb">
+                                                            {photo.photoName}
+                                                        </p>
+                                                    </CardTitle>
+                                                }
+                                        >
+                                            <div>
+                                                <p className="albumdescription">
+                                                    {photo.photoDescription}
+                                                </p>
+                                            </div>
+                                        </Card>
+                                    </Col> 
+                                )}
+                                {findedPhoto.length <= 0 &&
+                                    <div className="empty-Gallery-noSelected">
+                                        <h2><i className="material-icons">error_outline</i>Hello!</h2>
+                                        <h4>Show your best pics</h4>
+                                        <h5>Create or Choose an album and enjoy</h5>
+                                    </div>
+                                }
                             </React.Fragment>
                         }
                     </Col>
                 </Row>
+
+                <Modal
+                    actions={[
+                        <Button flat modal="close" node="button" waves="green">Close</Button>
+                    ]}
+                    bottomSheet={false}
+                    fixedFooter={false}
+                    header="Events Log"
+                    id="modal-0"
+                    options={{
+                        dismissible: true,
+                        endingTop: '10%',
+                        inDuration: 250,
+                        onCloseEnd: null,
+                        onCloseStart: null,
+                        onOpenEnd: null,
+                        onOpenStart: null,
+                        opacity: 0.5,
+                        outDuration: 250,
+                        preventScrolling: true,
+                        startingTop: '4%'
+                    }}
+                    trigger={
+                        <Button
+                            className="orange darken-2"
+                            icon={<Icon>event</Icon>}
+                            fab={{
+                                direction: 'left',
+                                hoverEnabled: false
+                            }}
+                            floating
+                            large
+                            node="button"
+                        ></Button>
+                    }
+                    >
+                    <p>
+                        In this part the app show the all events log
+                    </p>
+                </Modal>  
             </div>
         </Layout>
     );
